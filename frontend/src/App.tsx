@@ -1,9 +1,12 @@
 // import "./App.css";
 
+import Signup from "./pages/Auth/Signup/Signup";
+
 function App() {
   return (
     <>
-      <h1 className="bg-red-800">App File</h1>
+  
+      <Signup />
     </>
   );
 }
