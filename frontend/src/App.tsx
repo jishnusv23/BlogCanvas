@@ -1,6 +1,6 @@
 // import "./App.css";
 
-import CreateBlog from "./Components/features/Settings/CreateBlog";
+// import CreateBlog from "./Components/features/Settings/CreateBlog";
 
 // import Profile from "./pages/Home/Profile";
 
@@ -8,16 +8,16 @@ import CreateBlog from "./Components/features/Settings/CreateBlog";
 
 // import Login from "./pages/Auth/Login/Login";
 
-// import Signup from "./pages/Auth/Signup/Signup";
+import Signup from "./pages/Auth/Signup/Signup";
 
 function App() {
   return (
     <>
-      {/* <Signup /> */}
+      <Signup />
       {/* <Login/> */}
       {/* <Home /> */}
       {/* <Profile /> */}
-      <CreateBlog />
+      {/* <CreateBlog /> */}
     </>
   );
 }
