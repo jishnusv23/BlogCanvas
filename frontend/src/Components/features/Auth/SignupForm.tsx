@@ -4,11 +4,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupTypes } from "../../../types/SignupType";
 import { SignupSchema } from "../../../utils/validation/SignupValidation";
+import { useAppDispatch } from "../../../hooks/hooks";
+import { signUp } from "../../../redux/action/Auth/AuthActions";
 
 // Define the type for form validation based on SignupSchema
 type SignupValidationType = z.infer<typeof SignupSchema>;
 
 const SignupForm = () => {
+  const dispatch=useAppDispatch()
   const {
     handleSubmit,
     control,
@@ -27,7 +30,10 @@ const SignupForm = () => {
   });
 
   async function onSubmit(params: SignupTypes) {
-    console.log("🚀 ~ onSubmit ~ params:", params);
+    // console.log("🚀 ~ onSubmit ~ params:", params);
+    const { confirmPassword ,...signupData} = params;
+    console.log("🚀 ~ file: SignupForm.tsx:32 ~ onSubmit ~ signupData:", signupData)
+    const response=await dispatch(signUp(signupData))
   }
 
   return (
