@@ -8,7 +8,7 @@ export const signUp = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API.post("/signup", data);
+      const response = await CLIENT_API.post("signup", data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
