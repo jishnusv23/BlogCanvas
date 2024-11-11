@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {  Blog } from "../../../types/Types";
+import { Blog } from "../../../types/Types";
 import { CLIENT_API } from "../../../utils/axios";
 
 export const addArticle = createAsyncThunk(
@@ -8,7 +8,7 @@ export const addArticle = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API.post("/add-article", data);
+      const response = await CLIENT_API.post("/api/add-article", data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

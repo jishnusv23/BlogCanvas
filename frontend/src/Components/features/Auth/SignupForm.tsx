@@ -6,12 +6,14 @@ import { SignupTypes } from "../../../types/SignupType";
 import { SignupSchema } from "../../../utils/validation/SignupValidation";
 import { useAppDispatch } from "../../../hooks/hooks";
 import { signUp } from "../../../redux/action/Auth/AuthActions";
+import { useNavigate } from "react-router-dom";
 
 // Define the type for form validation based on SignupSchema
 type SignupValidationType = z.infer<typeof SignupSchema>;
 
 const SignupForm = () => {
-  const dispatch=useAppDispatch()
+  const navigate=useNavigate()
+  const dispatch = useAppDispatch();
   const {
     handleSubmit,
     control,
@@ -31,9 +33,12 @@ const SignupForm = () => {
 
   async function onSubmit(params: SignupTypes) {
     // console.log("🚀 ~ onSubmit ~ params:", params);
-    const { confirmPassword ,...signupData} = params;
-    console.log("🚀 ~ file: SignupForm.tsx:32 ~ onSubmit ~ signupData:", signupData)
-    const response=await dispatch(signUp(signupData))
+    const { confirmPassword, ...signupData } = params;
+    console.log(
+      "🚀 ~ file: SignupForm.tsx:32 ~ onSubmit ~ signupData:",
+      signupData
+    );
+    const response = await dispatch(signUp(signupData));
   }
 
   return (
@@ -123,6 +128,9 @@ const SignupForm = () => {
             </button>
           </div>
         </form>
+        <div className="flex justify-end hover:text-blue-600" onClick={()=>navigate('/login')}>
+          <h1>Existing User? Log in </h1>
+        </div>
       </div>
     </div>
   );

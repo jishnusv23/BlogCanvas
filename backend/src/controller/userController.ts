@@ -65,12 +65,8 @@ export const signUp = async (
 
     const userWithoutPassword = {
       _id: newUser._id,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
+      name: newUser.name,
       email: newUser.email,
-      phone: newUser.phone,
-      dateOfBirth: newUser.dateOfBirth,
-      preferences: newUser.preferences,
       isLogged: true,
     };
 
@@ -145,17 +141,13 @@ export const login = async (
       httpOnly: true,
       sameSite: "none",
       secure: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
 
     const userWithoutPassword = {
       _id: loginUser._id,
-      firstName: loginUser.firstName,
-      lastName: loginUser.lastName,
+      name: loginUser.name,
       email: loginUser.email,
-      phone: loginUser.phone,
-      dateOfBirth: loginUser.dateOfBirth,
-      preferences: loginUser.preferences,
       isLogged: true,
     };
 
@@ -218,12 +210,8 @@ export const resetPassword = async (
 
     const userWithoutPassword = {
       _id: existingUser._id,
-      firstName: existingUser.firstName,
-      lastName: existingUser.lastName,
+      name: existingUser.name,
       email: existingUser.email,
-      phone: existingUser.phone,
-      dateOfBirth: existingUser.dateOfBirth,
-      preferences: existingUser.preferences,
       isLogged: true,
     };
 
@@ -265,12 +253,8 @@ export const updateProfile = async (
 
     const userWithoutPassword = {
       _id: existingUser._id,
-      firstName: existingUser.firstName,
-      lastName: existingUser.lastName,
+      firstName: existingUser.name,
       email: existingUser.email,
-      phone: existingUser.phone,
-      dateOfBirth: existingUser.dateOfBirth,
-      preferences: existingUser.preferences,
       isLogged: true,
     };
 

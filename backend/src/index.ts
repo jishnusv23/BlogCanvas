@@ -4,6 +4,7 @@ import mongoose from "./config/databaseConfig";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
+import morgan from 'morgan'
 import path from "path";
 import router from "./router/index";
 import errorHandler from "./middleware/errorHandlerMiddleware";
@@ -20,6 +21,7 @@ app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 app.use("/backend/Public", express.static(path.join(__dirname, "Public")));
+app.use(morgan('dev'))
 
 app.use(
   cors({

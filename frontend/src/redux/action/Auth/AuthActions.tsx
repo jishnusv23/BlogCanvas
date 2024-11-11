@@ -8,7 +8,7 @@ export const signUp = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API.post("signup", data);
+      const response = await CLIENT_API.post("/api/signup", data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -28,13 +28,15 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+
 export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
       console.log(CLIENT_API);
 
-      const response = await CLIENT_API.post("/logout");
+      const response = await CLIENT_API.post("/api/logout");
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -62,7 +64,7 @@ export const updateUserProfile = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API .post("/update-profile", { data });
+      const response = await CLIENT_API.post("/update-profile", { data });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

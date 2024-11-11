@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginTypes } from "../../../types/SignupType";
 import { LoginformSchema } from "../../../utils/validation/LoginValidation";
+import { useNavigate } from "react-router-dom";
 type LoginValidationType = z.infer<typeof LoginformSchema>;
 const LoginForm = () => {
+  const navigate=useNavigate()
   const {
     handleSubmit,
     control,
@@ -15,10 +17,8 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginTypes>({
     defaultValues: {
-  
       email: "",
       password: "",
-     
     },
     resolver: zodResolver(LoginformSchema),
   });
@@ -32,8 +32,6 @@ const LoginForm = () => {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-semibold text-center mb-6">Login Form</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          
-
           <div>
             <label htmlFor="email" className="block text-gray-700 font-medium">
               Email
@@ -71,7 +69,6 @@ const LoginForm = () => {
             )}
           </div>
 
-
           <div className="text-center">
             <button
               type="submit"
@@ -82,6 +79,9 @@ const LoginForm = () => {
             </button>
           </div>
         </form>
+        <div className="flex justify-end mt-2 hover:text-blue-600" onClick={()=>navigate('/signup')}>
+          <h1>Create an account</h1>
+        </div>
       </div>
     </div>
   );

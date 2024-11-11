@@ -1,7 +1,6 @@
 export type Signup = {
   _id?: any;
-  firstName?: string;
-  lastName?: string;
+  name:string
   email?: string;
   phone?: string;
   dateOfBirth?: string;
@@ -10,7 +9,7 @@ export type Signup = {
 };
 
 export interface Blog {
-  author: string;
+  author?: string;
   _id?: any;
   id?: any;
   title?: string;
@@ -21,7 +20,7 @@ export interface Blog {
   tags: string[];
   category?: string;
   imagePreview?: any;
-  likes: any;
-  dislikes: any;
-  blocks: any;
+  likes?: any;
+  dislikes?: any;
+  blocks?: any;
 }

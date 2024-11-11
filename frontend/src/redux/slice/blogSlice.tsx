@@ -1,6 +1,6 @@
 import { addArticle } from "../action/Blog/BlogActions";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 interface ArticleState {
   data: any;

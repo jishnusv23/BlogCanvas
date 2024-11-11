@@ -27,7 +27,7 @@
     ): Promise<void> => {
       try {
         console.log(req.body.image);
-
+        console.log(req.body,'________________________________________________________')
         const result = await Article.create(req.body);
 
         console.log(result);
@@ -39,6 +39,7 @@
       } catch (error) {
         next(error);
       }
+      
     };
 
     export const getArticles = async (
@@ -112,7 +113,7 @@
                 .select("firstName")
                 .lean();
               if (user) {
-                authorName = user.firstName;
+                authorName = user.name;
               }
             }
             return {

@@ -6,7 +6,7 @@ import {
   updateUserProfile,
 } from "../action/Auth/AuthActions";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 interface AuthState {
   user: any;

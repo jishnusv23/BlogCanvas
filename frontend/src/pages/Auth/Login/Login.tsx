@@ -19,6 +19,7 @@ const Login = () => {
           className="object-cover"
         />
       </div>
+    
     </div>
   );
 };
