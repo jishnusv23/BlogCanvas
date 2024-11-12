@@ -110,7 +110,7 @@
             let authorName = "Unknown Author";
             if (article.id) {
               const user = await User.findById(article.id)
-                .select("firstName")
+                .select("name")
                 .lean();
               if (user) {
                 authorName = user.name;
@@ -142,6 +142,7 @@
       try {
         const articleId = req.params.id;
         const userId = req.body.userId;
+        console.log("🚀 ~ file: blogController.ts:145 ~ userId:", userId)
 
         const findArticle = await Article.findById({ _id: articleId });
 
@@ -158,6 +159,7 @@
           res.status(200).json({
             success: true,
             message: "Unliked successfully",
+            data: findArticle,
           });
         } else {
           if (dislikedIndex !== -1) {
@@ -170,6 +172,7 @@
           res.status(200).json({
             success: true,
             message: "Liked successfully",
+            data: findArticle,
           });
         }
       } catch (error) {
@@ -204,6 +207,7 @@
           res.status(200).json({
             success: true,
             message: "Undisliked successfully",
+            data: findArticle,
           });
         } else {
           if (likedIndex !== -1) {
@@ -216,6 +220,7 @@
           res.status(200).json({
             success: true,
             message: "Disliked successfully",
+            data: findArticle,
           });
         }
       } catch (error) {
@@ -223,125 +228,34 @@
         next(error);
       }
     };
-    export const blockArticle = async (
-      req: Request,
-      res: Response,
-      next: NextFunction
-    ): Promise<void> => {
-      try {
-        const articleId = req.params.id;
-        const userId = req.body.userId;
+   
 
-        const findArticle = await Article.findById({ _id: articleId });
+   
 
-        if (!findArticle) {
-          res.status(404).json({ message: "Article not found" });
-          return;
+    export const editArticle=async(req:Request,res:Response,next:NextFunction)=>{
+      try{
+        console.log(req.params); 
+        console.log(req.body);
+
+        
+        const updatedArticle = await Article.findOneAndUpdate(
+          { _id: req.params.id }, 
+          req.body, 
+          { new: true }
+        );
+
+      
+        if (!updatedArticle) {
+           res.status(404).json({ message: "Article not found" });
         }
 
-        const blockedIndex = findArticle.blocks.indexOf(userId);
-        const likedIndex = findArticle.likes.indexOf(userId);
-        const dislikedIndex = findArticle.dislikes.indexOf(userId);
-        if (blockedIndex !== -1) {
-          findArticle.blocks.splice(blockedIndex, 1);
-          await findArticle.save();
+        
+         res
+           .status(200)
+           .json({ success: false, message: "Article Edit successfully" });
 
-          res.status(200).json({
-            success: true,
-            message: "Unblocked successfully",
-          });
-        } else {
-          if (likedIndex !== -1) {
-            findArticle.likes.splice(likedIndex, 1);
-          }
-
-          if (dislikedIndex !== -1) {
-            findArticle.dislikes.splice(dislikedIndex, 1);
-          }
-
-          findArticle.blocks.push(userId);
-          await findArticle.save();
-
-          res.status(200).json({
-            success: true,
-            message: "Blocked successfully",
-          });
-        }
-      } catch (error) {
-        console.error("Error blocking/unblocking article:", error);
-        next(error);
+      }catch(error){
+        console.error("Error edit article:", error);
+        next(error)
       }
-    };
-
-    export const blockedArticle = async (
-      req: Request,
-      res: Response,
-      next: NextFunction
-    ): Promise<void> => {
-      try {
-        const userId = req.query.userId as string;
-        console.log("user", userId);
-
-        const blockedArticles: IArticle[] = await Article.find({
-          blocks: userId,
-        });
-
-        console.log(blockedArticles);
-
-        console.log("hello");
-
-        res.status(200).json({
-          success: true,
-          message: "Blocked articles fetched successfully",
-          data: blockedArticles.map((article) => ({
-            id: article._id,
-            title: article.title,
-            description: article.description,
-          })),
-        });
-      } catch (error) {
-        console.error("Error fetching blocked articles:", error);
-        next(error);
-      }
-    };
-
-    export const unblockArticle = async (
-      req: Request,
-      res: Response,
-      next: NextFunction
-    ): Promise<void> => {
-      try {
-        const articleId = req.params.id;
-        const userId = req.body.userId;
-
-        console.log("Unblocking article:", articleId, "for user:", userId);
-
-        const findArticle = await Article.findById(articleId);
-
-        if (!findArticle) {
-          res.status(404).json({ message: "Article not found" });
-          return;
-        }
-
-        if (findArticle.blocks && findArticle.blocks.includes(userId)) {
-          findArticle.blocks = findArticle.blocks.filter(
-            (id) => id.toString() !== userId
-          );
-
-          await findArticle.save();
-
-          res.status(200).json({
-            success: true,
-            message: "Article unblocked successfully",
-          });
-        } else {
-          res.status(400).json({
-            success: false,
-            message: "User is not blocked for this article",
-          });
-        }
-      } catch (error) {
-        console.error("Error unblocking article:", error);
-        next(error);
-      }
-    };
+    }

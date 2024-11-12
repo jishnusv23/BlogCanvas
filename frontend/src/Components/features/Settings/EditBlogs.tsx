@@ -9,6 +9,7 @@ import { addArticle } from "../../../redux/action/Blog/BlogActions";
 
 import { RootState } from "../../../redux/Store";
 import { BlogType } from "../../../types/Types";
+import { CLIENT_API } from "../../../utils/axios";
 
 const BlogSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters long."),
@@ -25,13 +26,17 @@ type BlogTypes = z.infer<typeof BlogSchema>;
 
 interface CreateBlogProps {
   onClose: () => void;
+  selectedBlog: BlogType | null;
 }
 
-const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
+const EditBlogs: React.FC<CreateBlogProps> = ({ onClose, selectedBlog }) => {
   const { user } = useAppSelector((state: RootState) => state.auth);
   console.log("🚀 ~ file: CreateBlog.tsx:31 ~ user:", user.user._id);
   const [wordCount, setWordCount] = useState(0);
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | null>(
+    selectedBlog?.image as string || null
+  );
+  console.log("🚀 ~ file: EditBlogs.tsx:38 ~ imgUrl:", imgUrl)
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const navigate = useNavigate();
@@ -40,10 +45,23 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
   const {
     register,
     handleSubmit,
+    setValue, // To update the form values dynamically
     formState: { errors },
   } = useForm<BlogTypes>({
     resolver: zodResolver(BlogSchema),
   });
+
+  // Set initial values from selectedBlog if available
+  React.useEffect(() => {
+    if (selectedBlog) {
+      setValue("title", selectedBlog.title as string);
+      setValue("description", selectedBlog.description as string);
+      setValue("tag", selectedBlog.tags.join(", "));
+      setValue("category", selectedBlog.category as string);
+      setValue("content", selectedBlog.content);
+      setImgUrl(selectedBlog.image as string);
+    }
+  }, [selectedBlog, setValue]);
 
   const onSubmit = async (data: BlogTypes) => {
     const blogData: BlogType = {
@@ -52,12 +70,14 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
       date: new Date().toISOString(),
       id: user.user._id,
       tags: data.tag.split(",").map((tag) => tag.trim()),
-      description:data.description,
-      category:data.category
-    
+      description: data.description,
+      category: data.category,
     };
-
-    await dispatch(addArticle(blogData));
+    console.log(blogData.id, "-----------", selectedBlog?._id );
+    const response = await CLIENT_API.put(
+      `/api/edit-article/${selectedBlog?._id}`,
+      blogData
+    );
     onClose();
   };
 
@@ -99,9 +119,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
         >
           &times;
         </button>
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Create Your Blog
-        </h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Edit Your Blog</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -149,10 +167,10 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
                 onChange={handleImageUpload}
                 className="w-full px-4 py-2 border rounded-md"
               />
-              {imagePreview && (
+              {(imagePreview||imgUrl) && (
                 <div className="mt-4">
                   <img
-                    src={imagePreview }
+                    src={imgUrl as string}
                     alt="Preview"
                     className="w-full h-40 object-cover rounded-md"
                   />
@@ -209,4 +227,4 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
   );
 };
 
-export default CreateBlog;
+export default EditBlogs;

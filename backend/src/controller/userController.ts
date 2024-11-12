@@ -88,23 +88,15 @@ export const login = async (
   try {
     console.log(req.body);
 
-    const { identifier, phone, password } = req.body;
+    const { email ,password } = req.body;
 
-    if (!identifier && !phone) {
-      res.status(400).json({
-        success: false,
-        message: "Identifier or country and phone are required",
-      });
-      return;
-    }
+    
 
     let loginUser;
-    if (identifier) {
-      loginUser = await User.findOne({ email: identifier });
+    if (email) {
+      loginUser = await User.findOne({ email: email });
       console.log(loginUser);
-    } else if (phone) {
-      loginUser = await User.findOne({ phone });
-    }
+    } 
 
     if (!loginUser) {
       res.status(404).json({ success: false, message: "User not found" });
@@ -180,90 +172,4 @@ export const logout = async (
   }
 };
 
-export const resetPassword = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    console.log(req.body);
 
-    const { oldPassword, newPassword, userId } = req.body.data;
-    console.log(userId);
-
-    const existingUser = await User.findById({ _id: userId });
-
-    if (!existingUser) {
-      res.status(404).json({ success: false, message: "User not found" });
-      return;
-    }
-    const match = await comparePassword(oldPassword, existingUser.password);
-    if (!match) {
-      res
-        .status(401)
-        .json({ success: false, message: "Old Password is incorrect" });
-      return;
-    }
-
-    existingUser.password = await hashPassword(newPassword);
-    await existingUser.save();
-
-    const userWithoutPassword = {
-      _id: existingUser._id,
-      name: existingUser.name,
-      email: existingUser.email,
-      isLogged: true,
-    };
-
-    res.status(200).json({
-      success: true,
-      message: "Password changed successfully",
-      user: userWithoutPassword,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateProfile = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    console.log(req.body);
-
-    const { userId, ...updateData } = req.body.data;
-    console.log(userId);
-
-    const existingUser = await User.findById({ _id: userId });
-
-    if (!existingUser) {
-      res.status(404).json({ success: false, message: "User not found" });
-      return;
-    }
-
-    Object.keys(updateData).forEach((key) => {
-      if (key !== "_id") {
-        (existingUser as any)[key] = updateData[key];
-      }
-    });
-
-    await existingUser.save();
-
-    const userWithoutPassword = {
-      _id: existingUser._id,
-      firstName: existingUser.name,
-      email: existingUser.email,
-      isLogged: true,
-    };
-
-    res.status(200).json({
-      success: true,
-      message: "Profile Updated successfully",
-      user: userWithoutPassword,
-    });
-  } catch (error) {
-    next(error);
-  }
-};

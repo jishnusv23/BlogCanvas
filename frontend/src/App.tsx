@@ -19,6 +19,7 @@ import { useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/Store";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import DetailsView from "./Components/features/Blog/DetailsView";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/login" element={!user?<Login />:<Navigate to='/'/>} />
           <Route path="/profile" element={user ? <Profile/>:<Navigate to="/"/>}/>
           <Route path="/signup" element={!user ? <Signup/>:<Navigate to="/"/>}/>
+          <Route path="/content/:id" element={user ? <DetailsView/>:<Navigate to="/"/>}/>
         </Routes>
       </Router>
       {/* <Signup /> */}

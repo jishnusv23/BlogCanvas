@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Blog } from "../../../types/Types";
+import { BlogType } from "../../../types/Types";
 import { CLIENT_API } from "../../../utils/axios";
 
 export const addArticle = createAsyncThunk(
   "article/addArticle",
-  async (data: Blog, { rejectWithValue }) => {
+  async (data: BlogType, { rejectWithValue }) => {
     try {
       console.log(data);
 
@@ -15,3 +15,18 @@ export const addArticle = createAsyncThunk(
     }
   }
 );
+export const editArticle = createAsyncThunk(
+  "article/editArticle",
+  async (data: BlogType, { rejectWithValue }) => {
+    try {
+      console.log(data);
+
+      const response = await CLIENT_API.post("/api/edit-article", data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+

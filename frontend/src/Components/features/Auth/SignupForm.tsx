@@ -12,14 +12,11 @@ import { useNavigate } from "react-router-dom";
 type SignupValidationType = z.infer<typeof SignupSchema>;
 
 const SignupForm = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
-    control,
     register,
-    setValue,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<SignupValidationType>({
     defaultValues: {
@@ -39,6 +36,9 @@ const SignupForm = () => {
       signupData
     );
     const response = await dispatch(signUp(signupData));
+    if(response){
+      navigate('/')
+    }
   }
 
   return (
@@ -90,6 +90,7 @@ const SignupForm = () => {
               placeholder="Enter Your Password"
               {...register("password")}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              autoComplete="new-password"
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">
@@ -110,6 +111,7 @@ const SignupForm = () => {
               placeholder="Enter Your Password Again"
               {...register("confirmPassword")}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              autoComplete="new-password"
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">
@@ -128,7 +130,10 @@ const SignupForm = () => {
             </button>
           </div>
         </form>
-        <div className="flex justify-end hover:text-blue-600" onClick={()=>navigate('/login')}>
+        <div
+          className="flex justify-end hover:text-blue-600"
+          onClick={() => navigate("/login")}
+        >
           <h1>Existing User? Log in </h1>
         </div>
       </div>

@@ -21,14 +21,13 @@ export const login = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API.post("/login", data);
+      const response = await CLIENT_API.post("/api/login", data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
   }
 );
-
 
 export const logout = createAsyncThunk(
   "auth/logout",

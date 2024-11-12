@@ -68,7 +68,10 @@ const Header = () => {
                 >
                   CreateBlog
                 </li>
-                <li className="px-3 py-2  hover:bg-green-300 cursor-pointer">
+                <li
+                  className="px-3 py-2  hover:bg-green-300 cursor-pointer"
+                  onClick={() => navigate("/profile")}
+                >
                   Liked
                 </li>
                 <li

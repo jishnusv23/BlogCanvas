@@ -34,14 +34,14 @@ const UserDetail = () => {
           <p className="text-gray-700">{"******"}</p>
         </div>
 
-        <div className="flex justify-between gap-4">
+        {/* <div className="flex justify-between gap-4">
           <button className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
             Change Password
           </button>
           <button className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600">
             Leave the Room
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

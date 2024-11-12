@@ -5,8 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginTypes } from "../../../types/SignupType";
 import { LoginformSchema } from "../../../utils/validation/LoginValidation";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../hooks/hooks";
+import { login } from "../../../redux/action/Auth/AuthActions";
 type LoginValidationType = z.infer<typeof LoginformSchema>;
 const LoginForm = () => {
+  const dispatch=useAppDispatch()
   const navigate=useNavigate()
   const {
     handleSubmit,
@@ -25,6 +28,7 @@ const LoginForm = () => {
 
   async function onSubmit(params: LoginTypes) {
     console.log("🚀 ~ onSubmit ~ params:", params);
+    const response=await dispatch(login(params))
   }
 
   return (
