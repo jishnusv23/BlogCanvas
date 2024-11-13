@@ -5,7 +5,7 @@
 
     import User from "../models/userModels";
 
-    import { deleteImageCloudinary } from "../utils/cloudinary/remove";
+    
     dotenv.config();
 
     interface IArticle {
@@ -81,7 +81,7 @@
           return;
         }
 
-        await deleteImageCloudinary(findArticle.image);
+      
 
         const result = await Article.findByIdAndDelete({ _id: articleId });
 

@@ -1,4 +1,4 @@
-import React from "react";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,12 +13,9 @@ const LoginForm = () => {
   const navigate=useNavigate()
   const {
     handleSubmit,
-    control,
     register,
-    setValue,
-    setError,
     formState: { errors, isSubmitting },
-  } = useForm<LoginTypes>({
+  } = useForm<LoginValidationType>({
     defaultValues: {
       email: "",
       password: "",
@@ -29,6 +26,9 @@ const LoginForm = () => {
   async function onSubmit(params: LoginTypes) {
     console.log("🚀 ~ onSubmit ~ params:", params);
     const response=await dispatch(login(params))
+    if(response){
+      navigate('/')
+    }
   }
 
   return (

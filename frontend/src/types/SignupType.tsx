@@ -3,6 +3,7 @@ export interface SignupTypes {
   email: string;
   password: string;
   confirmPassword: string;
+  preferences?: string[];
 }
 
 export interface LoginTypes{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdArrowDropleftCircle } from "react-icons/io";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BlogType } from "../../../types/Types";
@@ -13,19 +13,16 @@ const DetailsView = () => {
     (state: RootState) => state.auth.user.user._id
   );
   const { id } = useParams();
-  const { state } = useLocation(); // This will allow you to access the data passed from the previous page
+  const { state } = useLocation(); 
   const [selectedBlog, setSelectedBlog] = useState<BlogType | null>(
     state?.data || null
-  ); // Initialize with passed data
+  ); 
 
-  // Debugging
-  console.log("🚀 ~ file: DetailsView.tsx:7 ~ DetailsView ~ id:", id);
-  console.log("🚀 ~ file: DetailsView.tsx:7 ~ DetailsView ~ state:", state);
 
   useEffect(() => {
     const fetchArticle = async () => {
       if (!selectedBlog) {
-        // Fetch the article if it's not already passed as state
+       
         try {
           const response = await fetch(`/api/article/${id}`);
           const data = await response.json();

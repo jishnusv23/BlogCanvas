@@ -3,7 +3,7 @@ import {
   login,
   logout,
   resetPassword,
-  updateUserProfile,
+ 
 } from "../action/Auth/AuthActions";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
@@ -92,29 +92,7 @@ const authSlice = createSlice({
         toast.error(state.error);
         console.log(state.error);
       })
-      .addCase(updateUserProfile.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        updateUserProfile.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.loading = false;
-          state.user = action.payload;
-          (state.message = action.payload?.message),
-            toast.success(state.message);
-          state.error = null;
-        }
-      )
-      .addCase(
-        updateUserProfile.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.loading = false;
-          state.error = action.payload?.message;
-          toast.error(state.error);
-          console.log(state.error);
-        }
-      );
+      
   },
 });
 

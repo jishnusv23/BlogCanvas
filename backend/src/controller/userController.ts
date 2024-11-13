@@ -24,11 +24,7 @@ export const signUp = async (
   try {
     console.log(req.body);
 
-    // const { value, error } = userSignupValidation.validate(req.body);
-    // if (error) {
-    //   res.status(400).json({ success: false, message: error.message });
-    //   return;
-    // }
+   
 
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
@@ -67,6 +63,7 @@ export const signUp = async (
       _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      preferences: newUser.preferences,
       isLogged: true,
     };
 
@@ -140,6 +137,7 @@ export const login = async (
       _id: loginUser._id,
       name: loginUser.name,
       email: loginUser.email,
+      preferences: loginUser.preferences,
       isLogged: true,
     };
 
@@ -173,3 +171,48 @@ export const logout = async (
 };
 
 
+export const resetPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    console.log(req.body);
+
+    const { oldPassword, newPassword, userId } = req.body.data;
+    console.log(userId);
+
+    const existingUser = await User.findById({ _id: userId });
+
+    if (!existingUser) {
+      res.status(404).json({ success: false, message: "User not found" });
+      return;
+    }
+    const match = await comparePassword(oldPassword, existingUser.password);
+    if (!match) {
+      res
+        .status(401)
+        .json({ success: false, message: "Old Password is incorrect" });
+      return;
+    }
+
+    existingUser.password = await hashPassword(newPassword);
+    await existingUser.save();
+
+    const userWithoutPassword = {
+      _id: existingUser._id,
+      name: existingUser.name,
+      email: existingUser.email,
+      preferences: existingUser.preferences,
+      isLogged: true,
+    };
+
+    res.status(200).json({
+      success: true,
+      message: "Password changed successfully",
+      user: userWithoutPassword,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { ImageUpload } from "../../../utils/cloudinary/ImageUpload";
-import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
-import { addArticle } from "../../../redux/action/Blog/BlogActions";
+import { useAppSelector } from "../../../hooks/hooks";
 
 import { RootState } from "../../../redux/Store";
 import { BlogType } from "../../../types/Types";
@@ -34,13 +33,13 @@ const EditBlogs: React.FC<CreateBlogProps> = ({ onClose, selectedBlog }) => {
   console.log("🚀 ~ file: CreateBlog.tsx:31 ~ user:", user.user._id);
   const [wordCount, setWordCount] = useState(0);
   const [imgUrl, setImgUrl] = useState<string | null>(
-    selectedBlog?.image as string || null
+    (selectedBlog?.image as string) || null
   );
-  console.log("🚀 ~ file: EditBlogs.tsx:38 ~ imgUrl:", imgUrl)
+  console.log("🚀 ~ file: EditBlogs.tsx:38 ~ imgUrl:", imgUrl);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+ 
+  // const dispatch = useAppDispatch();
 
   const {
     register,
@@ -73,12 +72,14 @@ const EditBlogs: React.FC<CreateBlogProps> = ({ onClose, selectedBlog }) => {
       description: data.description,
       category: data.category,
     };
-    console.log(blogData.id, "-----------", selectedBlog?._id );
+    console.log(blogData.id, "-----------", selectedBlog?._id);
     const response = await CLIENT_API.put(
       `/api/edit-article/${selectedBlog?._id}`,
       blogData
     );
-    onClose();
+    if (response) {
+      onClose();
+    }
   };
 
   const handleWordCount = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -167,7 +168,7 @@ const EditBlogs: React.FC<CreateBlogProps> = ({ onClose, selectedBlog }) => {
                 onChange={handleImageUpload}
                 className="w-full px-4 py-2 border rounded-md"
               />
-              {(imagePreview||imgUrl) && (
+              {(imagePreview || imgUrl) && (
                 <div className="mt-4">
                   <img
                     src={imgUrl as string}

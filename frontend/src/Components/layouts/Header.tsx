@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { CiSettings } from "react-icons/ci";
 import CreateBlog from "../features/Settings/CreateBlog";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ const Header = () => {
 
   const handleLogoutConfirm = async () => {
     try {
+      setIsLoading(true)
       await dispatch(logout());
       navigate("/login", { replace: false });
     } catch (error) {

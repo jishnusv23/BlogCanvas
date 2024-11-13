@@ -1,4 +1,4 @@
-import React from "react";
+
 import Img from "../../../assets/person-with-laptop.svg";
 import SignupForm from "../../../Components/features/Auth/SignupForm";
 

@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { BlogType } from "../../../types/Types";
 import { CLIENT_API } from "../../../utils/axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/Store";
-import CreateBlog from "./CreateBlog";
+
 import Pagination from "../../common/Pagination";
 import ConfirmationModal from "../../common/ConfirmationModal";
-import { useAppDispatch } from "../../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
 import EditBlogs from "./EditBlogs";
 
 const MyBlogs = () => {
   const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
+   const { data } = useAppSelector((state: RootState) => state.blog);
   const userId = useSelector((state: RootState) => state.auth.user.user._id);
   const dispatch = useAppDispatch();
   const [selectedBlog, setSelectedBlog] = useState<BlogType | null>(null);
@@ -37,7 +38,7 @@ const MyBlogs = () => {
       }
     };
     fetchArticle();
-  }, [userId, dispatch, isOpenModal]);
+  }, [userId, data,dispatch]);
 
   const totalPages = Math.ceil(allBlogs.length / articlesPerPage);
   const indexOfLastArticle = currentPage * articlesPerPage;

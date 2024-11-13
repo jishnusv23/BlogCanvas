@@ -49,7 +49,7 @@ export const resetPassword = createAsyncThunk(
     try {
       console.log(data);
 
-      const response = await CLIENT_API.post("/reset-password", { data });
+      const response = await CLIENT_API.post("/api/reset-password", { data });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -57,16 +57,3 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-export const updateUserProfile = createAsyncThunk(
-  "auth/update-profile",
-  async (data: any, { rejectWithValue }) => {
-    try {
-      console.log(data);
-
-      const response = await CLIENT_API.post("/update-profile", { data });
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);

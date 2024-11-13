@@ -17,20 +17,15 @@ import Login from "./pages/Auth/Login/Login";
 import Signup from "./pages/Auth/Signup/Signup";
 import { useAppSelector } from "./hooks/hooks";
 import { RootState } from "./redux/Store";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+
+
 import DetailsView from "./Components/features/Blog/DetailsView";
 
 
 function App() {
   const { user } = useAppSelector((state: RootState) => state.auth);
   console.log("🚀 ~ file: App.tsx:25 ~ App ~ data:", user);
-  const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   if(!data){
-
-  //   }
-  // },[dispatch,data])
+  
   return (
     <>
       <Router>

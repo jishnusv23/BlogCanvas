@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { ImageUpload } from "../../../utils/cloudinary/ImageUpload";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
 import { addArticle } from "../../../redux/action/Blog/BlogActions";
@@ -17,7 +17,9 @@ const BlogSchema = z.object({
     .min(10, "Description must be at least 10 characters long."),
   tag: z.string().min(3, "Tag must be at least 3 characters long."),
   category: z.string().nonempty("Category is required."),
-  content: z.string().min(20, "Content must be at least 20 words."),
+  content: z
+    .string()
+    .min(50, { message: "Content name must be at least 50 characters." }),
   image: z.any().optional(),
 });
 
@@ -34,7 +36,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const {
@@ -95,7 +97,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl"
         >
           &times;
         </button>
@@ -152,7 +154,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
               {imagePreview && (
                 <div className="mt-4">
                   <img
-                    src={imagePreview }
+                    src={imagePreview}
                     alt="Preview"
                     className="w-full h-40 object-cover rounded-md"
                   />
@@ -168,10 +170,13 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Select a category</option>
-                <option value="technology">Technology</option>
-                <option value="lifestyle">Lifestyle</option>
-                <option value="education">Education</option>
-                <option value="health">Health</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Design">Design</option>
+                <option value="Opportunity">Opportunity</option>
+                <option value="Art">Art</option>
+                <option value="Support">Support</option>
+                <option value="Business">Business</option>
+                <option value="Tech">Tech</option>
               </select>
               {errors.category && (
                 <p className="text-red-500 text-sm">
@@ -182,7 +187,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onClose }) => {
             <div>
               <label className="block mb-2 font-medium">Content</label>
               <textarea
-                placeholder="Enter your content (max 100 words)"
+                placeholder="Enter your content (min 50 words)"
                 {...register("content")}
                 onChange={handleWordCount}
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-400"
