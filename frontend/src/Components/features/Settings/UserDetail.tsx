@@ -7,7 +7,7 @@ import ChangePasswordModal from "./ChangePassword";
 const UserDetail = () => {
   const { user } = useAppSelector((state: RootState) => state.auth);
   const [isOpenModal,setIsOpenModal]=useState<boolean>(false)
-  const onClose=()=>{}
+
   console.log("🚀 ~ file: UserDetail.tsx:7 ~ UserDetail ~ user:", user);
   // Dummy data
   // const user = {
