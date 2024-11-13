@@ -35,8 +35,8 @@ app.use(
 app.use("/api", router);
 app.use(errorHandler);
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
