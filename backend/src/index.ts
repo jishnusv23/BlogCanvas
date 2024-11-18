@@ -35,7 +35,7 @@ app.use(
 app.use("/api", router);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8002;
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
