@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
+const port = process.env.PORT || 8002;
 app.use("/backend/Public", express.static(path.join(__dirname, "Public")));
 app.use(morgan('dev'))
 
@@ -35,8 +36,7 @@ app.use(
 app.use("/api", router);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8002;
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
